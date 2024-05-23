@@ -1,0 +1,59 @@
+statements  : NEWLINE* statement (NEWLINE+ statement)* NEWLINE*
+
+statement		: KEYWORD:retourner expr?
+						: KEYWORD:continue
+						: KEYWORD:arret
+						: expr
+
+expr        : KEYWORD:variable IDENTIFIER EQ expr
+            : comp-expr ((KEYWORD:et|KEYWORD:ou) comp-expr)*
+
+comp-expr   : non comp-expr
+            : arith-expr ((EE|LT|GT|LTE|GTE) arith-expr)*
+
+arith-expr  :	term ((PLUS|MINUS) term)*
+
+term        : factor ((MUL|DIV) factor)*
+
+factor      : (PLUS|MINUS) factor
+            : power
+
+power       : call (POW factor)*
+
+call        : atom (LPAREN (expr (COMMA expr)*)? RPAREN)?
+
+atom        : INT|FLOAT|STRING|IDENTIFIER
+            : LPAREN expr RPAREN
+            : list-expr
+            : si-expr
+            : pour-expr
+            : tant_que-expr
+            : func-def
+
+list-expr   : LSQUARE (expr (COMMA expr)*)? RSQUARE
+
+if-expr     : KEYWORD:si expr KEYWORD:faire
+              (statement if-expr-b|if-expr-c?)
+            | (NEWLINE statements KEYWORD:fin|if-expr-b|if-expr-c)
+
+if-expr-b   : KEYWORD:sinon_si expr KEYWORD:faire
+              (statement if-expr-b|if-expr-c?)
+            | (NEWLINE statements KEYWORD:fin|if-expr-b|if-expr-c)
+
+si-expr-c   : KEYWORD:sinon
+              statement
+            | (NEWLINE statements KEYWORD:fin)
+
+pour-expr    : KEYWORD:pour IDENTIFIER EQ expr KEYWORD:a expr
+              (KEYWORD:STEP expr)? KEYWORD:faire
+              statement
+            | (NEWLINE statements KEYWORD:fin)
+
+tant_que-expr  : KEYWORD:tant_que expr KEYWORD:THEN
+              statement
+            | (NEWLINE statements KEYWORD:fin)
+
+fonction-def    : KEYWORD:fonction IDENTIFIER?
+              LPAREN (IDENTIFIER (COMMA IDENTIFIER)*)? RPAREN
+              (ARROW expr)
+            | (NEWLINE statements KEYWORD:fin)

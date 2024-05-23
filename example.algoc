@@ -1,0 +1,39 @@
+# This is a very useful piece of software
+
+fonction algoC(prefix) -> prefix + "algoC"
+
+
+fonction bonjour()
+    pour i=0 a 10 faire
+        ecrire ("Bonjour")
+    fin
+fin
+
+fonction join(elements, separator)
+	variable result = ""
+	variable len = long(elements)
+
+	pour i = 0 a len faire
+		variable result = result + elements/i
+		si i != len - 1 faire variable result = result + separator
+	fin
+
+	retourner result
+fin
+
+fonction map(elements, func)
+	variable new_elements = []
+
+	pour i = 0 a long(elements) faire
+		APPEND(new_elements, func(elements/i))
+	fin
+
+	retourner new_elements
+fin
+
+ecrire("Greetings universe!")
+bonjour()
+
+pour i = 0 a 5 faire
+	ecrire(join(map(["l", "sp"], algoC), ", "))
+fin
