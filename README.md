@@ -36,7 +36,7 @@ To install algoC, follow these steps:
 1. **Clone the Repository**
 
     ```sh
-    git clone https://github.com/yourusername/algoc.git
+    git clone git@github.com:Chaabane2k03/AlgoC.git
     ```
 
 2. **Navigate to the Directory**
